@@ -12,13 +12,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import fr.sg.cata.sgbank.configuration.HibernateUtil;
 import fr.sg.cata.sgbank.configuration.SpringConfiguration;
 import fr.sg.cata.sgbank.entities.Account;
-import fr.sg.cata.sgbank.exception.AccountOperationException;
+import fr.sg.cata.sgbank.exception.InsufficientAmountException;
 import fr.sg.cata.sgbank.service.AccountOperationFacade;
 import fr.sg.cata.sgbank.service.impl.AccountOperationImpl;
 
 public class CataRunner {
 
-	public static void main(String[] args) throws AccountOperationException {
+	public static void main(String[] args) throws InsufficientAmountException {
 
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
 		AccountOperationFacade service = context.getBean(AccountOperationFacade.class);

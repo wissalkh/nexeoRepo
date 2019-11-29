@@ -39,11 +39,12 @@ public class Operation {
 	
 	
 
-	public Operation(Account account, OperationType typeOperation, Date dateOperation) {
+	public Operation(Account account, OperationType typeOperation, Date dateOperation, BigDecimal balance) {
 		super();
 		this.account = account;
 		this.typeOperation = typeOperation;
 		this.dateOperation = dateOperation;
+		this.balance = balance;
 	}
 
 	public Integer getIdOperation() {

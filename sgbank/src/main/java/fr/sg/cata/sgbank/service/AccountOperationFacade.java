@@ -5,7 +5,7 @@ import java.util.List;
 
 import fr.sg.cata.sgbank.entities.Account;
 import fr.sg.cata.sgbank.entities.Operation;
-import fr.sg.cata.sgbank.exception.AccountOperationException;
+import fr.sg.cata.sgbank.exception.InsufficientAmountException;
 
 public interface AccountOperationFacade {
 	
@@ -21,9 +21,9 @@ public interface AccountOperationFacade {
 	 * @param amount
 	 * @param account
 	 * @return
-	 * @throws AccountOperationException 
+	 * @throws InsufficientAmountException 
 	 */
-	Boolean withdrawMoney(BigDecimal amount, String accountNum) throws AccountOperationException;
+	Boolean withdrawMoney(BigDecimal amount, String accountNum) throws InsufficientAmountException;
 	
 	/**
 	 * This method allows a bank client to check the history of his account.

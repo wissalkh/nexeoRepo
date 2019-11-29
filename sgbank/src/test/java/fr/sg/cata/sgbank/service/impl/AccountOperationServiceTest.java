@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 
 import fr.sg.cata.sgbank.dao.AccountDao;
 import fr.sg.cata.sgbank.entities.Account;
-import fr.sg.cata.sgbank.exception.AccountOperationException;
+import fr.sg.cata.sgbank.exception.InsufficientAmountException;
 import junit.framework.Assert;
 
 public class AccountOperationServiceTest {
@@ -36,8 +36,8 @@ public class AccountOperationServiceTest {
 		
 	}
 	
-	@Test(expected = AccountOperationException.class)
-	public void shouldThrowExceptionWhenWithdrawMoney() throws AccountOperationException {	
+	@Test(expected = InsufficientAmountException.class)
+	public void shouldThrowExceptionWhenWithdrawMoney() throws InsufficientAmountException {	
 		assertTrue(service.withdrawMoney(new BigDecimal(100), "120"));
 		service.withdrawMoney(new BigDecimal(100000), "120");
 	}
