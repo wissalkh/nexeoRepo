@@ -12,38 +12,29 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import fr.sg.cata.sgbank.configuration.HibernateUtil;
 import fr.sg.cata.sgbank.configuration.SpringConfiguration;
 import fr.sg.cata.sgbank.entities.Account;
-import fr.sg.cata.sgbank.service.AccountOperationService;
+import fr.sg.cata.sgbank.exception.AccountOperationException;
+import fr.sg.cata.sgbank.service.AccountOperationFacade;
 import fr.sg.cata.sgbank.service.impl.AccountOperationImpl;
 
 public class CataRunner {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AccountOperationException {
 
 		ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-		AccountOperationService service = context.getBean(AccountOperationService.class);
-
-		Account acc1 = new Account(100, new BigDecimal(1000));
-		Account acc2 = new Account(200, new BigDecimal(1000));
-		service.persist(acc1);
-		service.persist(acc2);
+		AccountOperationFacade service = context.getBean(AccountOperationFacade.class);
 
 		System.out.println("Please, enter your code:");
 		Scanner scanner = new Scanner(System.in);
 		String code = scanner.nextLine();
-		scanner.close();
+		scanner.close();		
+
+		service.deposeMoney(new BigDecimal(500), code);
+		service.withdrawMoney(new BigDecimal(300), code);
+		service.checkOperations(code);
+
+		service.withdrawMoney(new BigDecimal(1000), code);
+		service.checkOperations(code);
 		
-		Account account = service.findAccountByCode(Integer.parseInt(code));
-
-		if (account != null) {
-			System.out.println(account.toString());
-
-			service.deposeMoney(new BigDecimal(500), account);
-			service.withdrawMoney(new BigDecimal(300), account);
-			service.checkOperations(account);
-
-			service.withdrawMoney(new BigDecimal(1000), account);
-			service.checkOperations(account);
-		}
 
 	}
 }

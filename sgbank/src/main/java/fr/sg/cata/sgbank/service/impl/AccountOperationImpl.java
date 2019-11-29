@@ -14,17 +14,19 @@ import fr.sg.cata.sgbank.dao.AccountDao;
 import fr.sg.cata.sgbank.entities.Account;
 import fr.sg.cata.sgbank.entities.Operation;
 import fr.sg.cata.sgbank.entities.Operation.OperationType;
-import fr.sg.cata.sgbank.service.AccountOperationService;
+import fr.sg.cata.sgbank.exception.AccountOperationException;
+import fr.sg.cata.sgbank.service.AccountOperationFacade;
 
 @Service
-public class AccountOperationImpl implements AccountOperationService{
+public class AccountOperationImpl implements AccountOperationFacade{
 
 	private static Logger LOGGER = Logger.getLogger(AccountOperationImpl.class);
 	
 	@Autowired
 	private AccountDao accountDAO;	
 
-	public void deposeMoney(BigDecimal amount, Account account) {
+	public void deposeMoney(BigDecimal amount, String accountNum) {
+		Account account = findAccountByCode(Integer.parseInt(accountNum));
 		account.getSolde().add(amount);
 		Calendar calendar = Calendar.getInstance();
 		account.addOperation(new Operation(account, OperationType.DEPOSIT, calendar.getTime()));
@@ -32,7 +34,8 @@ public class AccountOperationImpl implements AccountOperationService{
 		LOGGER.info("The deposit of " + amount +" is succefully done. your actual solde is: "+ account.getSolde());
 	}
 
-	public Boolean withdrawMoney(BigDecimal amount, Account account) {
+	public Boolean withdrawMoney(BigDecimal amount, String accountNum) throws AccountOperationException{
+		Account account = findAccountByCode(Integer.parseInt(accountNum));
 		if(account.getSolde().compareTo(amount) >= 0) {
 			account.getSolde().subtract(amount);
 			account.addOperation(new Operation(account, OperationType.WITHDRAWAL, Calendar.getInstance().getTime()));
@@ -41,11 +44,12 @@ public class AccountOperationImpl implements AccountOperationService{
 			return true;
 		}else {
 			LOGGER.info("You don't have enough money!");
-			return false;
+			throw new AccountOperationException();
 		}
 	}
 
-	public List<Operation> checkOperations(Account account) {
+	public List<Operation> checkOperations(String accountNum) {
+		Account account = findAccountByCode(Integer.parseInt(accountNum));
 		return account.getOperations();
 	}
 

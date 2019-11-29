@@ -1,5 +1,6 @@
 package fr.sg.cata.sgbank.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,6 +29,9 @@ public class Operation {
 	
 	@Column(name = "DATE_OPERATION")
 	private Date dateOperation;
+	
+	@Column(name = "BALANCE")
+	private BigDecimal balance;
 	
 	public enum OperationType{
 		WITHDRAWAL, DEPOSIT;
@@ -65,6 +69,21 @@ public class Operation {
 	public void setTypeOperation(OperationType typeOperation) {
 		this.typeOperation = typeOperation;
 	}
-	
+
+	public Date getDateOperation() {
+		return dateOperation;
+	}
+
+	public void setDateOperation(Date dateOperation) {
+		this.dateOperation = dateOperation;
+	}
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}	
 	
 }

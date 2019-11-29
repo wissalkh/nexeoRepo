@@ -5,41 +5,30 @@ import java.util.List;
 
 import fr.sg.cata.sgbank.entities.Account;
 import fr.sg.cata.sgbank.entities.Operation;
+import fr.sg.cata.sgbank.exception.AccountOperationException;
 
-public interface AccountOperationService {
-	
-	/**
-	 * This method returns the account whose identifier is {@value code}
-	 * @param code
-	 * @return
-	 */
-	Account findAccountByCode(int code);
-	
-    /**
-     * This method allows the account to be persisted and saved to the database
-     * @param account
-     */
-	void persist(Account account);
+public interface AccountOperationFacade {
 	
 	/**
 	 * This method allows a bank client to make a deposit in his account.
 	 * @param amount
 	 * @param account
 	 */
-	void deposeMoney(BigDecimal amount, Account account);
+	void deposeMoney(BigDecimal amount, String accountNum);
 
 	/**
 	 * This method allows a bank client to withdraw money from his account.
 	 * @param amount
 	 * @param account
 	 * @return
+	 * @throws AccountOperationException 
 	 */
-	Boolean withdrawMoney(BigDecimal amount, Account account);
+	Boolean withdrawMoney(BigDecimal amount, String accountNum) throws AccountOperationException;
 	
 	/**
 	 * This method allows a bank client to check the history of his account.
 	 * @param account
 	 * @return
 	 */
-	List<Operation> checkOperations(Account account);
+	List<Operation> checkOperations(String accountNum);
 }
